@@ -22,8 +22,8 @@ def get_course_books(course_name):
 
     response = _execute_query(query)
     books = [
-        {'book_name': item['bookName']['value'],
-        'author': item['author']['value']}
+        {'title': item['bookName']['value'],
+         'author': item['author']['value']}
         for item in response
     ]
     return books
