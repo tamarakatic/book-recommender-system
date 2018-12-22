@@ -11,6 +11,17 @@ import pandas as pd
 import config
 
 
+class Book:
+
+    def __init__(self, title, author, language=None):
+        self.title = title
+        self.author = author
+        self.language = language
+
+    def to_json(self):
+        return {key: value for key, value in self.__dict__.items() if key != 'language'}
+
+
 class BookRecommender:
 
     def __init__(self):
@@ -29,10 +40,10 @@ class BookRecommender:
         title_vectors = self._vectorizer.transform([title.lower() for title in titles])
         similarities = cosine_similarity(title_vectors, self._book_vectors)
         indices = np.unique(np.argsort(-similarities)[:, :n].flatten())
-        recommended_books = [
-            {'title': title, 'author': author}
+        recommended_books = {
+            Book(title, author)
             for title, author in self._books_df[['Title', 'Author']].iloc[indices].values
-        ]
+        }
         return recommended_books
 
 

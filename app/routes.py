@@ -16,6 +16,10 @@ def get_recommendations():
         message = 'Invalid course name.'
         return jsonify({'message': message}), 400
 
-    book_titles = [book['title'] for book in books]
-    recommendations = app.book_recommender.get_recommendations(titles=book_titles)
-    return jsonify(recommendations), 200
+    english_books = {book for book in books if book.language == 'en'}
+    if english_books:
+        book_titles = [book.title for book in english_books]
+        recommendations = app.book_recommender.get_recommendations(titles=book_titles)
+        books.union_update(recommendations)
+
+    return jsonify({'books': [book.to_json() for book in books]}), 200

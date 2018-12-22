@@ -1,8 +1,11 @@
 from SPARQLWrapper import SPARQLWrapper, JSON
+import langdetect
+
+from recommender import Book
+
 
 SPARQL_SERVER_URL = 'http://192.168.0.20:3030/books/'
 ONTOLOGY_URI = '<http://www.semanticweb.org/tamara/ontologies/2018/11/untitled-ontology-3#>'
-
 sparql = SPARQLWrapper(SPARQL_SERVER_URL)
 
 
@@ -21,11 +24,12 @@ def get_course_books(course_name):
     """.format(ontology=ONTOLOGY_URI, course_name=course_name)
 
     response = _execute_query(query)
-    books = [
-        {'title': item['bookName']['value'],
-         'author': item['author']['value']}
+    books = {
+        Book(title=item['bookName']['value'],
+             author=item['author']['value'],
+             language=langdetect.detect(item['bookName']['value']))
         for item in response
-    ]
+    }
     return books
 
 
