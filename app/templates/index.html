@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Book Recommender</title>
+  </head>
+  <body>
+    <div style="margin: auto; width: 50%; text-align: center;">
+      <form id="recommendationForm">
+        <input type="text" id="course" placeholder="Course Name" autocomplete="off" size="30" style="height: 20px;"/>
+        <button type="submit">Submit</button>
+      </form>
+      <hr />
+      <ul id="bookList" style="text-align: left;">
+      </ul>
+    </div>
+  </body>
+  <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+<html>

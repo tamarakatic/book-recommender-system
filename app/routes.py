@@ -1,6 +1,11 @@
-from flask import request, jsonify
+from flask import request, jsonify, render_template
 
 from app import app, sparql_server
+
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 
 @app.route('/recommendations', methods=['GET'])
@@ -13,7 +18,7 @@ def get_recommendations():
 
     books = sparql_server.get_course_books(course_name)
     if not books:
-        message = 'Invalid course name.'
+        message = 'Invalid course name: {}'.format(course_name)
         return jsonify({'message': message}), 400
 
     english_books = {book for book in books if book.language == 'en'}
@@ -22,4 +27,5 @@ def get_recommendations():
         recommendations = app.book_recommender.get_recommendations(titles=book_titles)
         books.update(recommendations)
 
-    return jsonify({'books': [book.to_json() for book in books]}), 200
+    data = [book.to_json() for book in sorted(books, key=lambda book: book.title)]
+    return jsonify({'books': data}), 200
