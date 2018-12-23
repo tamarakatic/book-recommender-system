@@ -20,6 +20,6 @@ def get_recommendations():
     if english_books:
         book_titles = [book.title for book in english_books]
         recommendations = app.book_recommender.get_recommendations(titles=book_titles)
-        books.union_update(recommendations)
+        books.update(recommendations)
 
     return jsonify({'books': [book.to_json() for book in books]}), 200
