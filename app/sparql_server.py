@@ -1,5 +1,3 @@
-import os
-
 from SPARQLWrapper import SPARQLWrapper, JSON
 import langdetect
 
@@ -11,7 +9,7 @@ sparql = SPARQLWrapper(config.SPARQL_SERVER_URL)
 
 
 def get_course_books(course_name):
-    query =  """
+    query = """
     PREFIX uni: {ontology}
     SELECT ?bookName ?author
     WHERE {{

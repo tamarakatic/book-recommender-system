@@ -1,5 +1,4 @@
 import argparse
-import os
 import pickle
 import sys
 
@@ -85,3 +84,9 @@ if __name__ == '__main__':
 
     if args.train:
         train()
+
+    if args.book:
+        recommender = BookRecommender()
+        books = recommender.get_recommendations(titles=[args.book])
+        for book in books:
+            print(book.title, book.author)

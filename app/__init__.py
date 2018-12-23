@@ -4,4 +4,4 @@ from recommender import BookRecommender
 app = Flask(__name__)
 app.book_recommender = BookRecommender()
 
-from app import routes
+from app import routes  # noqa
